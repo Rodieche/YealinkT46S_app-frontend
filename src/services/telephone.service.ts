@@ -1,8 +1,10 @@
 const base_url = `${import.meta.env.VITE_API}/telephone`
 
-export const dialUp = (key: string) => {
+export const dialUp = async (key: string) => {
 
     const url = `${base_url}/${key}`;
-    fetch(url);
+    const resp = await fetch(url);
+    console.log(resp);
+    return;
 
 }

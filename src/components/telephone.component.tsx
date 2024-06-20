@@ -7,7 +7,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 
 export const TelephoneComponent = () => {
 
-    const [number, setNumber] = useState('');
+  const [number, setNumber] = useState('');
 
   const dialer = (key: string) => {
     switch(key) {
@@ -33,6 +33,20 @@ export const TelephoneComponent = () => {
     dialUp(key); // Assuming dialUp is defined elsewhere in your code
     console.log(number)
   }
+
+  const inputDialer = (e) => {
+    const valids = ['1','2','3','4','5','6','7','8','9','0','*','#'];
+    if(e === 'Backspace') {
+      setNumber(prevNumber => prevNumber.slice(0, -1));
+      dialUp('F3');
+      console.log(number)
+      return;
+    }
+    if(!valids.includes(e)){
+      return;
+    }
+    dialer(e);
+  }
   
   return (
     <div className="bg-gray-100 rounded-lg shadow-lg p-6 max-w-md mx-auto">
@@ -43,7 +57,8 @@ export const TelephoneComponent = () => {
             placeholder="Enter phone number"
             className="w-full text-2xl font-medium text-gray-900 focus:outline-none"
             value={number}
-            onChange={(e) => dialer(e.target.value[e.target.value.length - 1])}
+            onKeyDown={(e) => inputDialer(e.key)}
+//            onChange={(e) => inputDialer(e.target.value[e.target.value.length - 1])}
           />
         </div>
         <div className="grid grid-cols-3 gap-4 w-full">
