@@ -42,6 +42,10 @@ export const TelephoneComponent = () => {
       console.log(number)
       return;
     }
+    else if(e === 'Escape'){
+      setNumber('');
+      dialUp('BACK_IDLE');
+    }
     if(!valids.includes(e)){
       return;
     }
