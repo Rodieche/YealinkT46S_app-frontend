@@ -1,3 +1,4 @@
+import { Route, Routes } from "react-router-dom";
 import { NavbarComponent } from "./components/navbar.component";
 import { TelephoneComponent } from "./components/telephone.component";
 
@@ -6,11 +7,11 @@ const App = () => {
 
   return (
     <>
-      <NavbarComponent />
-      <div className="mt-9">
-        <TelephoneComponent />
-      </div>
-    </>
+    <NavbarComponent />
+    <Routes>        
+      <Route path="/"  element={<TelephoneComponent/>} />
+  </Routes>
+  </>
   );
 };
 

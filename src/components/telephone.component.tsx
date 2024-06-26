@@ -53,7 +53,7 @@ export const TelephoneComponent = () => {
   }
   
   return (
-    <div className="bg-gray-100 rounded-lg shadow-lg p-6 max-w-md mx-auto">
+    <div className="bg-gray-100 rounded-lg shadow-lg p-6 max-w-md mx-auto mt-9">
       <div className="flex flex-col items-center space-y-6">
         <div className="w-full bg-white rounded-lg shadow-md p-4">
           <input
