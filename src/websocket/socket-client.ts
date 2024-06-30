@@ -4,6 +4,7 @@ export const connectToServer = (): Socket => {
 	console.log('Socket called')
     const manager = new Manager('http://localhost:3000/socket.io/socket.io.js');
     const socket = manager.socket('/');
+    console.log(socket);
 
     // socket.on('connect', () => {
     //     console.log('Connected to server');
