@@ -3,7 +3,6 @@ import { NavbarComponent } from "./components/navbar.component";
 import { TelephoneComponent } from "./components/telephone.component";
 
 const App = () => {
-  
 
   return (
     <>
