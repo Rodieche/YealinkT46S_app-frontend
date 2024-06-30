@@ -30,7 +30,7 @@ export const TelephoneComponent = () => {
     console.log(number)
   }
 
-  const inputDialer = (e) => {
+  const inputDialer = (e: string) => {
     const valids = ['1','2','3','4','5','6','7','8','9','0','*','#'];
     if(e === 'Backspace') {
       setNumber(prevNumber => prevNumber.slice(0, -1));
