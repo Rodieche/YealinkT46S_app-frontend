@@ -9,6 +9,7 @@ import { useTelephoneStore } from "../stores";
 export const TelephoneComponent = () => {
 
   const number = useTelephoneStore(state => state.telephoneNumber);
+  const incomeCall = useTelephoneStore(state => state.incomingCall);
   const setTelephoneNumber = useTelephoneStore(state => state.setTelephoneNumber);
   const clearTelephoneNumber = useTelephoneStore(state => state.clearTelephoneNumber);
   const removeLastDial = useTelephoneStore(state => state.removeLastDial);
@@ -52,7 +53,12 @@ export const TelephoneComponent = () => {
   
   return (
     <>
-    <AlertComponent name='Income Call' message='Rudolf is calling' />
+    {
+      !incomeCall
+      ? null 
+      : <AlertComponent />
+    }
+    
     <div className="bg-gray-100 rounded-lg shadow-lg p-6 max-w-md mx-auto mt-9">
       <div className="flex flex-col items-center space-y-6">
         <div className="w-full bg-white rounded-lg shadow-md p-4">

@@ -47,13 +47,19 @@ export const NavbarComponent = () => {
                         <MdDialpad /> &nbsp; Dialer
                     </Link>
                     <a href="#" className="text-gray-700 hover:text-gray-900 flex items-center"><FaAddressBook /> &nbsp; Addresses</a>
-                    <a href="#" className="text-gray-700 hover:text-gray-900 flex items-center"><LiaPhoneSquareSolid /> &nbsp; Set Phone</a>
+                    <Link to={"/addTelephone"} className="text-gray-700 hover:text-gray-900 flex items-center">
+                        <LiaPhoneSquareSolid /> &nbsp; Set Phone
+                    </Link>
                 </div>
                 </div>
                 <div className={`transition-max-height duration-500 ease-in-out overflow-hidden ${isMobileMenuOpen ? 'max-h-screen' : 'max-h-0'} lg:hidden`}>
-                    <a href="#" className="block text-gray-700 hover:text-gray-900 py-2 flex items-center"><MdDialpad /> &nbsp; Dialer</a>
+                    <Link to={"/"} className="text-gray-700 hover:text-gray-900 flex items-center">
+                        <MdDialpad /> &nbsp; Dialer
+                    </Link>
                     <a href="#" className="block text-gray-700 hover:text-gray-900 py-2 flex items-center"><FaAddressBook /> &nbsp; Addresses</a>
-                    <a href="#" className="block text-gray-700 hover:text-gray-900 py-2 flex items-center"><LiaPhoneSquareSolid /> &nbsp; Set Phone</a>
+                    <Link to={"/addTelephone"} className="text-gray-700 hover:text-gray-900 flex items-center">
+                        <LiaPhoneSquareSolid /> &nbsp; Set Phone
+                    </Link>
                 </div>
             </div>
         </nav>
