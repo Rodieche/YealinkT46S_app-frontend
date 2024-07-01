@@ -10,5 +10,10 @@ export const connectToServer = (): Socket => {
         console.log(payload);
     });
 
+    socket.on('outgoingCall', (payload)=>{
+        console.log('Ofutgoing Call');
+        console.log(payload);
+    })
+
     return socket;
 };

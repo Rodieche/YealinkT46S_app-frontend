@@ -1,29 +1,32 @@
-import { useState } from "react";
 import { dialUp } from "../services/telephone.service";
 
 import { CiHeadphones, CiMicrophoneOff } from "react-icons/ci";
 import { MdOutlinePhonePaused, MdCancel } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import { AlertComponent } from "./alert.component";
+import { useTelephoneStore } from "../stores";
 
 export const TelephoneComponent = () => {
 
-  const [number, setNumber] = useState('');
+  const number = useTelephoneStore(state => state.telephoneNumber);
+  const setTelephoneNumber = useTelephoneStore(state => state.setTelephoneNumber);
+  const clearTelephoneNumber = useTelephoneStore(state => state.clearTelephoneNumber);
+  const removeLastDial = useTelephoneStore(state => state.removeLastDial);
 
   const dialer = (key: string) => {
     switch(key){
       case 'hash':
-        setNumber(prevNumber => prevNumber + '#');
+        setTelephoneNumber('#');
         break;
       case 'star':
-        setNumber(prevNumber => prevNumber + '*');
+        setTelephoneNumber('*');
         break;
       case 'cancelX':
-        setNumber('');
+        clearTelephoneNumber();
         break;
       default:
         if (!isNaN(+key)) {
-          setNumber(prevNumber => prevNumber + key);
+          setTelephoneNumber(key);
         }
     }
     dialUp(key);
@@ -33,12 +36,12 @@ export const TelephoneComponent = () => {
   const inputDialer = (e: string) => {
     const valids = ['1','2','3','4','5','6','7','8','9','0','*','#'];
     if(e === 'Backspace') {
-      setNumber(prevNumber => prevNumber.slice(0, -1));
+      removeLastDial();
       dialUp('f3');
       return;
     }
     else if(e === 'Escape'){
-      setNumber('');
+      clearTelephoneNumber();
       dialUp('backIdle');
     }
     if(!valids.includes(e)){
