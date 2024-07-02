@@ -22,6 +22,7 @@ export const connectToServer = (): Socket => {
 
     socket.on('outgoingCall', (payload)=>{
         console.log('Outgoing Call');
+        console.log(payload);
         if(payload.ip == telephone_ip){
             console.log(payload);
             setOutgoingCall(payload.callerNumber, payload.callerId);
@@ -29,6 +30,8 @@ export const connectToServer = (): Socket => {
     });
 
     socket.on('terminateCall', (payload) => {
+        console.log('Cancelleted or termated call');
+        console.log(payload);
         if(payload.ip == telephone_ip){
             terminateCall();
         }
