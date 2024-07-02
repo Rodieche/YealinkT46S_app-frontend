@@ -9,6 +9,7 @@ export const connectToServer = (): Socket => {
 
     const setIncomeCall = useTelephoneStore.getState().setIncomeCall;
     const setOutgoingCall = useTelephoneStore.getState().setOutgoingCall;
+    const terminateCall = useTelephoneStore.getState().terminateCall;
     const telephone_ip = useTelephoneStore.getState().telephoneUrl;
 
     socket.on('incomingCall', (payload)=> {
@@ -25,7 +26,13 @@ export const connectToServer = (): Socket => {
             console.log(payload);
             setOutgoingCall(payload.callerNumber, payload.callerId);
         }
-    })
+    });
+
+    socket.on('terminateCall', (payload) => {
+        if(payload.ip == telephone_ip){
+            terminateCall();
+        }
+    } )
 
     return socket;
 };
