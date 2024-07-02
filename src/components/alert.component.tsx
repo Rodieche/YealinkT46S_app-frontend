@@ -1,18 +1,27 @@
 import { useTelephoneStore } from "../stores"
-import { MdOutlinePhoneCallback } from "react-icons/md";
+import { FiPhoneIncoming, FiPhoneOutgoing } from "react-icons/fi";
 
-export const AlertComponent = () => {
+export const AlertComponent = (props) => {
 
     const callerId = useTelephoneStore(state => state.callerId);
     const callerNumber = useTelephoneStore(state => state.callerNumber);
 
     return (
-        <div className="bg-yellow-500 text-black-900 rounded-md p-4 mr-20 ml-20 mt-10">
+        <div className={`${(props.type == 'OutgoingCall')? 'bg-blue-500' : 'bg-yellow-500'} text-black-900 rounded-md p-4 mr-20 ml-20 mt-10`}>
             <div className="flex items-center space-x-3">
-                <MdOutlinePhoneCallback className="h-6 w-6" />
+                {
+                    (props.type == 'IncomingCall')
+                    ? <FiPhoneIncoming className="h-6 w-6" />
+                    : null
+                }
+                {
+                    (props.type == 'OutgoingCall')
+                    ? <FiPhoneOutgoing className="h-6 w-6" />
+                    : null
+                }
                 <div>
                 <h3 className="text-lg font-medium">{`${callerId? callerId + ' - ': null}${callerNumber}`} </h3>
-                <p className="text-sm">Incoming Call</p>
+                <p className="text-sm">{(props.type == 'OutgoingCall')? 'Outgoing Call' : 'Incoming Call'}</p>
                 </div>
             </div>
         </div>

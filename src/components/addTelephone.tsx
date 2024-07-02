@@ -3,6 +3,7 @@ import { useTelephoneStore } from "../stores";
 export function AddTelephoneComponent() {
 
     const setIp = useTelephoneStore(state => state.setIP);
+    const telephoneURL = useTelephoneStore(state => state.telephoneUrl);
   
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -35,6 +36,9 @@ export function AddTelephoneComponent() {
                 >
                     Submit
                 </button>
+                <div className="flex items-center justify-center h-full">   
+                    <p>Current Phone registered: {telephoneURL || 'Unregistered'}</p>
+                </div>
                 </form>
             </div>
         </div>

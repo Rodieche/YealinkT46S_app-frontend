@@ -10,6 +10,7 @@ export const TelephoneComponent = () => {
 
   const number = useTelephoneStore(state => state.telephoneNumber);
   const incomeCall = useTelephoneStore(state => state.incomingCall);
+  const outgoingCall = useTelephoneStore(state => state.outgoingCall);
   const setTelephoneNumber = useTelephoneStore(state => state.setTelephoneNumber);
   const clearTelephoneNumber = useTelephoneStore(state => state.clearTelephoneNumber);
   const removeLastDial = useTelephoneStore(state => state.removeLastDial);
@@ -31,7 +32,6 @@ export const TelephoneComponent = () => {
         }
     }
     dialUp(key);
-    console.log(number)
   }
 
   const inputDialer = (e: string) => {
@@ -54,9 +54,15 @@ export const TelephoneComponent = () => {
   return (
     <>
     {
-      !incomeCall
+      (!incomeCall)
       ? null 
-      : <AlertComponent />
+      : <AlertComponent type='IncomingCall' />
+    }
+
+{
+      (!outgoingCall)
+      ? null 
+      : <AlertComponent type='OutgoingCall' />
     }
     
     <div className="bg-gray-100 rounded-lg shadow-lg p-6 max-w-md mx-auto mt-9">
