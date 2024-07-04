@@ -11,6 +11,8 @@ interface TelephoneState {
     handsfree: boolean
     callerId: string | null;
     callerNumber: string | null;
+    established: boolean;
+    finished: boolean;
 
     setTelephoneNumber: (newNumber: string) => void;
     clearTelephoneNumber: () => void;
@@ -23,6 +25,7 @@ interface TelephoneState {
     setHandsfree: () => void;
     setIP: (ip: string) => void;
     terminateCall: () => void;
+    establishedCall: () => void;
 }
 
 const Partialize = ['telephoneNumber', 'incomingCall', 'outgoingCall', 'mute', 'headset', 'handsfree', 'callerId', 'callerNumber'];
@@ -32,11 +35,13 @@ const storeTelephone: StateCreator<TelephoneState> = (set) => ({
     telephoneNumber: '',
     incomingCall: false,
     outgoingCall: false,
+    established: false,
     mute: false,
     headset: false,
     handsfree: false,
     callerId: null,
     callerNumber: null,
+    finished: false,
 
     setTelephoneNumber: (newNumber: string) => set((state) => ({ telephoneNumber: state.telephoneNumber + newNumber })),
     clearTelephoneNumber: () => set(() => ({ telephoneNumber: '' })),
@@ -48,7 +53,16 @@ const storeTelephone: StateCreator<TelephoneState> = (set) => ({
     setUnMute: () => set(() => ({mute: false})),
     setHeadset: () => set(() => ({headset: true, handsfree: false})),
     setHandsfree: () => set(() => ({handsfree: true, headset: false})),
-    terminateCall: () => set(() => ({callerId: null, callerNumber: null, incomingCall: false, outgoingCall: false}))
+    establishedCall: () => set(() => ({ incomingCall: false, outgoingCall: false, established: true })),
+    terminateCall: () => {
+        set({ incomingCall: false, outgoingCall: false, established: false });
+        setTimeout(() => {
+            set({ finished: true });
+            setTimeout(() => {
+                set({ finished: false });
+            }, 3000);
+        }, 0);
+    }
 
 });
 

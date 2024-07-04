@@ -11,6 +11,8 @@ export const TelephoneComponent = () => {
   const number = useTelephoneStore(state => state.telephoneNumber);
   const incomeCall = useTelephoneStore(state => state.incomingCall);
   const outgoingCall = useTelephoneStore(state => state.outgoingCall);
+  const established = useTelephoneStore(state => state.established);
+  const terminated = useTelephoneStore(state => state.finished);
   const setTelephoneNumber = useTelephoneStore(state => state.setTelephoneNumber);
   const clearTelephoneNumber = useTelephoneStore(state => state.clearTelephoneNumber);
   const removeLastDial = useTelephoneStore(state => state.removeLastDial);
@@ -50,20 +52,17 @@ export const TelephoneComponent = () => {
     }
     dialer(e);
   }
+
+  const renderAlert = (condition: any, type: string) => {
+    return condition ? <AlertComponent type={type} /> : null;
+  };
   
   return (
     <>
-    {
-      (!incomeCall)
-      ? null 
-      : <AlertComponent type='IncomingCall' />
-    }
-
-{
-      (!outgoingCall)
-      ? null 
-      : <AlertComponent type='OutgoingCall' />
-    }
+    {renderAlert(incomeCall, 'IncomingCall')}
+    {renderAlert(established, 'Established')}
+    {renderAlert(outgoingCall, 'OutgoingCall')}
+    {renderAlert(terminated, 'Terminated')}
     
     <div className="bg-gray-100 rounded-lg shadow-lg p-6 max-w-md mx-auto mt-9">
       <div className="flex flex-col items-center space-y-6">

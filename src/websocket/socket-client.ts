@@ -1,6 +1,12 @@
 import { Manager, Socket } from 'socket.io-client';
 import { useTelephoneStore } from '../stores';
+import { isMyPhone } from '../helpers';
 
+interface IPayload {
+    ip: string;
+    callerNumber?: string;
+    callerId?: string;
+}
 
 export const connectToServer = (): Socket => {
 	console.log('Socket called')
@@ -10,32 +16,32 @@ export const connectToServer = (): Socket => {
     const setIncomeCall = useTelephoneStore.getState().setIncomeCall;
     const setOutgoingCall = useTelephoneStore.getState().setOutgoingCall;
     const terminateCall = useTelephoneStore.getState().terminateCall;
-    const telephone_ip = useTelephoneStore.getState().telephoneUrl;
+    const establishedCall = useTelephoneStore.getState().establishedCall;
 
-    socket.on('incomingCall', (payload)=> {
-        if(payload.ip == telephone_ip){
-            console.log(payload);
-            console.log('Incoming Call');
-            setIncomeCall(payload.callerNumber, payload.callerId);
+    socket.on('incomingCall', (payload: IPayload)=> {
+        if(isMyPhone(payload.ip)){
+            setIncomeCall(payload.callerNumber!, payload.callerId);
         }
     });
 
     socket.on('outgoingCall', (payload)=>{
-        console.log('Outgoing Call');
-        console.log(payload);
-        if(payload.ip == telephone_ip){
-            console.log(payload);
-            setOutgoingCall(payload.callerNumber, payload.callerId);
+        if(isMyPhone(payload.ip)){
+            setOutgoingCall(payload.callerNumber!, payload.callerId);
         }
     });
 
     socket.on('terminateCall', (payload) => {
-        console.log('Cancelleted or termated call');
-        console.log(payload);
-        if(payload.ip == telephone_ip){
+        if(isMyPhone(payload.ip)){
             terminateCall();
         }
-    } )
+    });
+
+    socket.on('establichedCall', (payload) => {
+        console.log('Established Call')
+        if(isMyPhone(payload.ip)){
+            establishedCall();
+        }
+    });
 
     return socket;
 };

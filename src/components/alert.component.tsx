@@ -1,49 +1,48 @@
+import { useEffect } from "react";
+import { AlertProps } from "../helpers";
 import { useTelephoneStore } from "../stores"
-import { FiPhoneIncoming, FiPhoneOutgoing } from "react-icons/fi";
 
-export const AlertComponent = (props) => {
+interface IProps {
+    type: string,
+}
+
+export const AlertComponent = ({ type }: IProps) => {
+
+    function componentDidMount() {
+        if (!("Notification" in window)) {
+          console.log("This browser does not support desktop notification");
+        } else {
+          Notification.requestPermission();
+        }
+      }
+    
+    function showNotification(message: string | undefined, notification:boolean = false) {
+        if(message && notification){
+            new Notification(message, { body: `${callerId? callerId + ' - ': null}${ callerNumber }`, icon: '/logo.png' });
+        }
+    }
 
     const callerId = useTelephoneStore(state => state.callerId);
     const callerNumber = useTelephoneStore(state => state.callerNumber);
+    
+    const filteredAlertProps = AlertProps.filter(r => r.type === type);
+    const alertProp = filteredAlertProps.length > 0 ? filteredAlertProps[0] : null;
+
+    useEffect(() => {
+        componentDidMount();
+        showNotification(alertProp?.message, alertProp?.notification);
+    },[]); 
+
 
     return (
-        <div className={`${(props.type == 'OutgoingCall')? 'bg-blue-500' : 'bg-yellow-500'} text-black-900 rounded-md p-4 mr-20 ml-20 mt-10`}>
+        <div className={`${alertProp?.color} text-black-900 rounded-md p-4 mr-20 ml-20 mt-10`}>
             <div className="flex items-center space-x-3">
-                {
-                    (props.type == 'IncomingCall')
-                    ? <FiPhoneIncoming className="h-6 w-6" />
-                    : null
-                }
-                {
-                    (props.type == 'OutgoingCall')
-                    ? <FiPhoneOutgoing className="h-6 w-6" />
-                    : null
-                }
+                {alertProp?.icon}
                 <div>
                 <h3 className="text-lg font-medium">{`${callerId? callerId + ' - ': null}${callerNumber}`} </h3>
-                <p className="text-sm">{(props.type == 'OutgoingCall')? 'Outgoing Call' : 'Incoming Call'}</p>
+                <p className="text-sm">{alertProp?.message}</p>
                 </div>
             </div>
         </div>
       )
     }
-    
-// function CircleCheckIcon(props) {
-//     return (
-//         <svg
-//         {...props}
-//         xmlns="http://www.w3.org/2000/svg"
-//         width="24"
-//         height="24"
-//         viewBox="0 0 24 24"
-//         fill="none"
-//         stroke="currentColor"
-//         strokeWidth="2"
-//         strokeLinecap="round"
-//         strokeLinejoin="round"
-//         >
-//         <circle cx="12" cy="12" r="10" />
-//         <path d="m9 12 2 2 4-4" />
-//         </svg>
-//     )
-// }
