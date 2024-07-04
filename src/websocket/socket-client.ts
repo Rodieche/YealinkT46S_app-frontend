@@ -18,7 +18,7 @@ export const connectToServer = (): Socket => {
     const terminateCall = useTelephoneStore.getState().terminateCall;
     const establishedCall = useTelephoneStore.getState().establishedCall;
 
-    socket.on('incomingCall', (payload: IPayload)=> {
+    socket.on('incomingCall', async (payload: IPayload)=> {
         if(isMyPhone(payload.ip)){
             setIncomeCall(payload.callerNumber!, payload.callerId);
         }
