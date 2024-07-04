@@ -31,12 +31,13 @@ export const connectToServer = (): Socket => {
     });
 
     socket.on('terminateCall', (payload) => {
+        console.log('Terminated Call')
         if(isMyPhone(payload.ip)){
             terminateCall();
         }
     });
 
-    socket.on('establichedCall', (payload) => {
+    socket.on('establishedCall', (payload) => {
         console.log('Established Call')
         if(isMyPhone(payload.ip)){
             establishedCall();
