@@ -2,6 +2,7 @@ import { dialUp } from "../services/telephone.service";
 
 import { CiHeadphones, CiMicrophoneOff } from "react-icons/ci";
 import { MdOutlinePhonePaused, MdCancel } from "react-icons/md";
+import { FiMicOff, FiMic  } from "react-icons/fi";
 import { FaPhoneAlt } from "react-icons/fa";
 import { AlertComponent } from "./alert.component";
 import { useTelephoneStore } from "../stores";
@@ -13,6 +14,7 @@ export const TelephoneComponent = () => {
   const outgoingCall = useTelephoneStore(state => state.outgoingCall);
   const established = useTelephoneStore(state => state.established);
   const terminated = useTelephoneStore(state => state.finished);
+  const mute = useTelephoneStore(state => state.mute);
   const setTelephoneNumber = useTelephoneStore(state => state.setTelephoneNumber);
   const clearTelephoneNumber = useTelephoneStore(state => state.clearTelephoneNumber);
   const removeLastDial = useTelephoneStore(state => state.removeLastDial);
@@ -124,11 +126,21 @@ export const TelephoneComponent = () => {
           <button className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg flex-1 flex items-center justify-center" onClick={() => dialer('headset')}>
             <CiHeadphones />
           </button>
-          <button className="bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-6 rounded-lg flex-1 flex items-center justify-center" onClick={() => dialer('hold')}>
+          <button 
+            className={`${established? null : 'cursor-not-allowed'} bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-6 rounded-lg flex-1 flex items-center justify-center`} 
+            onClick={() => dialer('hold')}
+            disabled={!established}>
             <MdOutlinePhonePaused />
           </button>
-          <button className="bg-gray-500 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-lg flex-1 flex items-center justify-center" onClick={() => dialer('mute')}>
-            <CiMicrophoneOff />
+          <button 
+            className={`${established? null : 'cursor-not-allowed'} bg-gray-500 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-lg flex-1 flex items-center justify-center`} 
+            onClick={() => dialer('mute')}
+            disabled={!established}>
+              {
+                mute
+                ? <CiMicrophoneOff />
+                : <FiMic />
+              }
           </button>
         </div>
       </div>

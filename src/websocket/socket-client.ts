@@ -17,6 +17,8 @@ export const connectToServer = (): Socket => {
     const setOutgoingCall = useTelephoneStore.getState().setOutgoingCall;
     const terminateCall = useTelephoneStore.getState().terminateCall;
     const establishedCall = useTelephoneStore.getState().establishedCall;
+    const setmute = useTelephoneStore.getState().setMute;
+    const setUnMute = useTelephoneStore.getState().setUnMute;
 
     socket.on('incomingCall', (payload: IPayload)=> {
         if(isMyPhone(payload.ip)){
@@ -43,6 +45,22 @@ export const connectToServer = (): Socket => {
             establishedCall();
         }
     });
+
+    socket.on('mute', (payload) => {
+        console.log('Mute')
+        if(isMyPhone(payload.ip)){
+            setmute();
+        }
+    });
+
+    socket.on('unMute', (payload) => {
+        console.log('UnMute')
+        if(isMyPhone(payload.ip)){
+            setUnMute();
+        }
+    });
+
+    
 
     return socket;
 };

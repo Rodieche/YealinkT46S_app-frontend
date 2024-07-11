@@ -53,9 +53,9 @@ const storeTelephone: StateCreator<TelephoneState> = (set) => ({
     setUnMute: () => set(() => ({mute: false})),
     setHeadset: () => set(() => ({headset: true, handsfree: false})),
     setHandsfree: () => set(() => ({handsfree: true, headset: false})),
-    establishedCall: () => set(() => ({ incomingCall: false, outgoingCall: false, established: true })),
+    establishedCall: () => set(() => ({ incomingCall: false, outgoingCall: false, established: true, telephoneNumber: '' })),
     terminateCall: () => {
-        set({ incomingCall: false, outgoingCall: false, established: false });
+        set({ incomingCall: false, outgoingCall: false, established: false, telephoneNumber: '', callerId: null, callerNumber: null, mute: false });
         setTimeout(() => {
             set({ finished: true });
             setTimeout(() => {
